@@ -1,0 +1,14 @@
+.virtual-scroll-container {
+  border: 2px solid cyan;
+  height: 200px;
+  overflow: auto;
+}
+
+cdk-tree-node {
+  display: block;
+}
+
+.node:nth-child(odd) {
+  background-color: red;
+}
+//https://stackoverflow.com/questions/52606511/angular-material-cdk-tree-component-with-virtual-scroll
