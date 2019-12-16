@@ -1,6 +1,10 @@
-import { ArrayDataSource, CollectionViewer, DataSource } from "@angular/cdk/collections";
-import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
-import { ExampleFlatNode } from './app.component';
+import {
+  ArrayDataSource,
+  CollectionViewer,
+  DataSource
+} from "@angular/cdk/collections";
+import { BehaviorSubject, Observable, Subscription, of } from "rxjs";
+import { ExampleFlatNode } from "./app.component";
 // export class MyDataSource extends ArrayDataSource<ExampleFlatNode> {
 //   private _length = 100000;
 //   private _pageSize = 100;
@@ -32,22 +36,94 @@ import { ExampleFlatNode } from './app.component';
 //   }
 // }
 
-export class ArrayDataSource1 extends DataSource<ExampleFlatNode>  {
-    // public get data(): ExampleFlatNode[] {
-    //     return this._data.filter(a=>a.Level == 0 || a.isExpanded);
-    // }
-    // public set data(value: ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode> | Observable<ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode>>) {
-    //     this._data = value;
-    // }
+export class ArrayDataSource1 extends DataSource<ExampleFlatNode> {
+  // public get data(): ExampleFlatNode[] {
+  //     return this._data.filter(a=>a.Level == 0 || a.isExpanded);
+  // }
+  // public set data(value: ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode> | Observable<ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode>>) {
+  //     this._data = value;
+  // }
 
-    constructor(private _data: ExampleFlatNode[]) {
-      super();
-    }
-  
-    connect(): Observable<ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode>> {
-     const data = this._data.filter(a=>a.Level == 0 || a.isExpanded);
-      return data instanceof Observable ? data : of(data);
-    }
-  
-    disconnect() {}
+  dataChange = new BehaviorSubject<ExampleFlatNode[]>([]);
+
+  get data(): ExampleFlatNode[] {
+    return this.dataChange.value;
   }
+  set data(value: ExampleFlatNode[]) {
+    this.dataChange.next(value);
+  }
+
+  constructor(private _data: ExampleFlatNode[]) {
+    super();
+    this.publishData();
+  }
+
+  connect(): Observable<ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode>> {
+    const data = this.publishData();
+
+    return data instanceof Observable ? data : of(data);
+  }
+
+  disconnect() {}
+
+  //     getChildren(node: ExampleFlatNode): ExampleFlatNode[] | undefined {
+  //         const itemIndex = this._data.indexOf(node);
+
+  //         let count = 0;
+  //       for (
+  //         let i = itemIndex + 1;
+  //         i < this._data.length && this._data[i].Level > node.Level;
+  //         i++, count++
+  //       ) {}
+  //       const returnItems: ExampleFlatNode[] =[];
+  // for(let i=0;i<= this._data.length; i++) {
+  //     const item = this._data[i];
+  //     if() {
+  //         returnItems.push(item);
+  //     }
+  // }
+  //         return this._data.filter((data, index, array)=>data.Level == node.Level + 1 && index >= itemIndex + 1 && index <= count )
+  //      }
+
+  toggleNode(node: ExampleFlatNode, expand: boolean) {
+    //     const children = this.getChildren(node.item);
+    // const index = this._data.indexOf(node);
+    // if (!children && expand) {
+    //   // If no children, or cannot find the node, no op
+    //   //this.makeGetTreeCall(node, index);
+
+    //   return;
+    // }
+    node.isExpanded = !node.isExpanded;
+    const itemIndex = this._data.indexOf(node);
+
+    for (let i = itemIndex + 1; i < this._data.length; i++) {
+      const item = this._data[i];
+      if (item.Level == node.Level) {
+        break;
+      }
+      if (item.Level >= node.Level + 1) {
+        item.shouldRender = expand;
+      }
+    }
+
+    //setTimeout(() => {
+    if (expand) {
+    } else {
+    }
+
+    this.publishData();
+  }
+
+  private publishData() {
+    const data = this._data.filter(
+      a => a.Level == 0 || a.isExpanded || a.shouldRender
+    );
+    this.publish(data);
+    return data;
+  }
+
+  private publish(data: ExampleFlatNode[]) {
+    this.dataChange.next(data);
+  }
+}

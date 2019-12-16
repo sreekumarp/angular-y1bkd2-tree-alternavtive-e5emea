@@ -22,13 +22,13 @@
 <div>Number of cdk-tree-node elements rendered: {{ numCdkTreeNodes }}</div>-->
 
 <cdk-virtual-scroll-viewport class="virtual-scroll-container" itemSize="18">
-   <ng-container *cdkVirtualFor="let node of arrayDataSource">
+   <ng-container *cdkVirtualFor="let node of arrayDataSource?.data">
     <div
       class="node"
       [style.padding-left]="node.Level * 24 + 'px'"
       *ngIf="shouldRender(node)"
     >
-      <button (click)="node.isExpanded = !node.isExpanded" *ngIf="isExpandable(node)">
+      <button (click)="arrayDataSource.toggleNode(node, !node.isExpanded)" *ngIf="isExpandable(node)">
         {{ node.isExpanded ? '-' : '+' }}
       </button>
       {{ node.ObjectName }}

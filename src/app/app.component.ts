@@ -21,6 +21,7 @@ export interface ExampleFlatNode {
   ObjectName: string;
   Level: number;
   isExpanded?: boolean;
+  shouldRender?: boolean;
 }
 
 // Generates fake data
