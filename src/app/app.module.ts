@@ -1,20 +1,16 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { CdkTreeModule } from '@angular/cdk/tree';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HelloComponent } from './hello.component';
 
 @NgModule({
-  imports: [ 
-    BrowserModule, 
-    FormsModule,
-    CdkTreeModule,
-    ScrollingModule,
+  declarations: [
+    AppComponent
   ],
-  declarations: [ AppComponent, HelloComponent ],
-  bootstrap:    [ AppComponent ]
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
