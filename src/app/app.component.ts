@@ -3,6 +3,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { ArrayDataSource } from "@angular/cdk/collections";
 import {DataSource} from '@angular/cdk/collections';
+import { ArrayDataSource1 } from './MyDataSource';
 
 
 // Interface used for representing a node of data
@@ -3478,7 +3479,7 @@ export class AppComponent  {
     node => node.expandable
   );
 
-  arrayDataSource = new ArrayDataSource(TREE_DATA);
+  arrayDataSource = new ArrayDataSource1(TREE_DATA);
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
