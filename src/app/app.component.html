@@ -36,6 +36,7 @@
   </ng-container>
 </cdk-virtual-scroll-viewport>
 
+{{arrayDataSource | json }}
 <!-- VIRTUALLY SCROLLING TREE WHOOHOO :) -->
 <p>With virtual scrolling: We don't get the nice cdk-tree directives, BUT since we still have the underlying FlatTreeControl, we actually have a ton of control over how our tree behaves. Turns out cdk-tree directives are only a light wrapper around MatTreeFlatDataSource and TreeControl!</p>
 <cdk-virtual-scroll-viewport class="virtual-scroll-container" itemSize="18">

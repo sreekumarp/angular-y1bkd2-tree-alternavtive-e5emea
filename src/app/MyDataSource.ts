@@ -32,13 +32,21 @@ import { ExampleFlatNode } from './app.component';
 //   }
 // }
 
-export class ArrayDataSource1<T> extends DataSource<T> {
-    constructor(private _data: T[] | ReadonlyArray<T> | Observable<T[] | ReadonlyArray<T>>) {
+export class ArrayDataSource1 extends DataSource<ExampleFlatNode>  {
+    // public get data(): ExampleFlatNode[] {
+    //     return this._data.filter(a=>a.Level == 0 || a.isExpanded);
+    // }
+    // public set data(value: ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode> | Observable<ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode>>) {
+    //     this._data = value;
+    // }
+
+    constructor(private _data: ExampleFlatNode[]) {
       super();
     }
   
-    connect(): Observable<T[] | ReadonlyArray<T>> {
-      return this._data instanceof Observable ? this._data : of(this._data);
+    connect(): Observable<ExampleFlatNode[] | ReadonlyArray<ExampleFlatNode>> {
+     const data = this._data.filter(a=>a.Level == 0 || a.isExpanded);
+      return data instanceof Observable ? data : of(data);
     }
   
     disconnect() {}
